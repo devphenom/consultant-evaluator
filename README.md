@@ -1,8 +1,56 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+# Customer Evaluator
+
+A lightweight web application that helps clients evaluate consultants based on a job description, built with Next.js and Tailwind CSS.
+
+**Live Demo**: [https://consultant-evaluator.vercel.app/](https://consultant-evaluator.vercel.app/)
+
+![Homepage](/public/landing.png)
+
+## Project Overview
+
+This application allows users to:
+
+- Input a job description
+- View 10 consultant profiles relevant to that description
+- See AI-generated evaluations for each consultant
+- Filter consultants by various criteria
+
+Each consultant evaluation includes:
+
+- A basic fit score/ranking
+- A short summary
+- Key pros and cons
+- Suggested questions to ask during interviews
+
+## Features
+
+- **Job Description Input**: Easy-to-use form for entering job requirements
+- **Consultant Matching**: Displays consultants relevant to the job description
+- **AI-Powered Evaluations**: Uses LLM inference API to generate insights
+- **Responsive UI**: Clean interface built with Tailwind CSS and shadcn/ui
+- **Filtering System**: Filter consultants by location, experience, or keywords
+
+## Tech Stack
+
+- **Frontend**: Next.js, React, TailwindCSS, shadcn/ui
+- **Backend**: Next.js API routes
+- **AI Inference**: Integration with LLM API
 
 ## Getting Started
 
-First, run the development server:
+First, install the dependencies:
+
+```bash
+npm install
+# or
+yarn install
+# or
+pnpm install
+# or
+bun install
+```
+
+Then, run the development server:
 
 ```bash
 npm run dev
@@ -14,27 +62,30 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the application.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+## Project Structure
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+- `/components` - UI components including consultant-related components
+- `/pages` - Application pages and API routes
+- `/lib` - Utility functions and data
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+## Implementation Approach
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The implementation follows a modular approach:
 
-## Learn More
+1. Created a clean, intuitive UI using shadcn/ui components
+2. Developed a form to collect job description inputs
+3. Implemented mock consultant profiles with relevant information
+4. Integrated with an LLM inference API to generate evaluations
+5. Added filtering functionality for better user experience
+6. Ensured responsive design for all screen sizes
 
-To learn more about Next.js, take a look at the following resources:
+The application minimizes unnecessary API calls while maintaining a smooth user experience.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
+## Future Enhancements
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+- User authentication
+- Saved job descriptions
+- More advanced filtering options
+- Expanded consultant database
