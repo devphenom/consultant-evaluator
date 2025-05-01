@@ -1,3 +1,5 @@
+"use client";
+
 import Footer from "@/components/layout/Footer";
 import { JobDescriptionForm } from "@/components/JobDescriptionForm";
 import MetaTags from "@/components/layout/MetaTags";
@@ -6,10 +8,13 @@ import { useRouter } from "next/router";
 export default function Home() {
   const router = useRouter();
 
-  const handleSubmit = (description: string) => {
+  const handleSubmit = (jobData: { title: string; description: string }) => {
     router.push({
       pathname: "/results",
-      query: { jobDescription: description },
+      query: {
+        jobTitle: jobData.title,
+        jobDescription: jobData.description,
+      },
     });
   };
 

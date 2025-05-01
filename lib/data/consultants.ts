@@ -18,13 +18,17 @@ export interface Consultant {
   avatar: string;
   location: string;
   hourlyRate: number;
-  rating: number;
   totalProjects: number;
-  skills: Skill[];
   experiences: Experience[];
   education: string[];
   availability: string;
   bio: string;
+  // AI-evaluated fields (optional)
+  fitScore?: number;
+  evaluation?: string;
+  pros?: string[];
+  cons?: string[];
+  questions?: string[];
 }
 
 export const consultants: Consultant[] = [
@@ -35,15 +39,8 @@ export const consultants: Consultant[] = [
     avatar: "https://randomuser.me/api/portraits/men/32.jpg",
     location: "San Francisco, CA",
     hourlyRate: 120,
-    rating: 4.8,
+
     totalProjects: 45,
-    skills: [
-      { name: "React", level: "expert", yearsOfExperience: 5 },
-      { name: "TypeScript", level: "expert", yearsOfExperience: 4 },
-      { name: "Node.js", level: "intermediate", yearsOfExperience: 3 },
-      { name: "GraphQL", level: "intermediate", yearsOfExperience: 2 },
-      { name: "AWS", level: "intermediate", yearsOfExperience: 3 },
-    ],
     experiences: [
       {
         company: "Tech Innovations Inc.",
@@ -69,15 +66,7 @@ export const consultants: Consultant[] = [
     avatar: "https://randomuser.me/api/portraits/women/44.jpg",
     location: "New York, NY",
     hourlyRate: 95,
-    rating: 4.9,
     totalProjects: 38,
-    skills: [
-      { name: "Figma", level: "expert", yearsOfExperience: 4 },
-      { name: "Adobe XD", level: "expert", yearsOfExperience: 5 },
-      { name: "Sketch", level: "intermediate", yearsOfExperience: 3 },
-      { name: "User Research", level: "expert", yearsOfExperience: 6 },
-      { name: "HTML/CSS", level: "intermediate", yearsOfExperience: 3 },
-    ],
     experiences: [
       {
         company: "Creative Design Agency",
@@ -103,15 +92,7 @@ export const consultants: Consultant[] = [
     avatar: "https://randomuser.me/api/portraits/men/67.jpg",
     location: "Seattle, WA",
     hourlyRate: 135,
-    rating: 4.7,
     totalProjects: 22,
-    skills: [
-      { name: "Python", level: "expert", yearsOfExperience: 7 },
-      { name: "Machine Learning", level: "expert", yearsOfExperience: 5 },
-      { name: "SQL", level: "expert", yearsOfExperience: 6 },
-      { name: "TensorFlow", level: "intermediate", yearsOfExperience: 3 },
-      { name: "Data Visualization", level: "expert", yearsOfExperience: 4 },
-    ],
     experiences: [
       {
         company: "Data Insights Corp",
@@ -137,15 +118,7 @@ export const consultants: Consultant[] = [
     avatar: "https://randomuser.me/api/portraits/women/23.jpg",
     location: "Chicago, IL",
     hourlyRate: 105,
-    rating: 4.9,
     totalProjects: 56,
-    skills: [
-      { name: "Agile Methodology", level: "expert", yearsOfExperience: 8 },
-      { name: "Scrum", level: "expert", yearsOfExperience: 6 },
-      { name: "JIRA", level: "expert", yearsOfExperience: 7 },
-      { name: "Risk Management", level: "expert", yearsOfExperience: 5 },
-      { name: "Stakeholder Management", level: "expert", yearsOfExperience: 6 },
-    ],
     experiences: [
       {
         company: "Project Solutions Ltd.",
@@ -171,15 +144,7 @@ export const consultants: Consultant[] = [
     avatar: "https://randomuser.me/api/portraits/men/45.jpg",
     location: "Austin, TX",
     hourlyRate: 110,
-    rating: 4.6,
     totalProjects: 32,
-    skills: [
-      { name: "Docker", level: "expert", yearsOfExperience: 5 },
-      { name: "Kubernetes", level: "intermediate", yearsOfExperience: 3 },
-      { name: "AWS", level: "expert", yearsOfExperience: 6 },
-      { name: "Terraform", level: "intermediate", yearsOfExperience: 3 },
-      { name: "CI/CD", level: "expert", yearsOfExperience: 4 },
-    ],
     experiences: [
       {
         company: "Cloud Solutions Inc.",
@@ -197,5 +162,135 @@ export const consultants: Consultant[] = [
     education: ["B.S. Computer Science, University of Texas", "AWS Certified Solutions Architect", "Kubernetes Certified Administrator"],
     availability: "Available from May 2025",
     bio: "DevOps engineer specializing in cloud infrastructure and automation. Passionate about creating efficient, scalable, and secure deployment pipelines.",
+  },
+  {
+    id: "6",
+    name: "Priya Patel",
+    title: "Cloud Solutions Architect",
+    avatar: "https://randomuser.me/api/portraits/women/68.jpg",
+    location: "Denver, CO",
+    hourlyRate: 140,
+    totalProjects: 29,
+    experiences: [
+      {
+        company: "CloudXperts LLC",
+        role: "Lead Cloud Architect",
+        duration: "2021 - Present",
+        description: "Designed multi-cloud solutions for enterprise clients. Led migration projects and implemented best practices for security and scalability.",
+      },
+      {
+        company: "NextGen Cloud",
+        role: "Cloud Engineer",
+        duration: "2017 - 2021",
+        description: "Built and maintained cloud infrastructure, automated deployments, and improved system reliability.",
+      },
+    ],
+    education: ["M.S. Information Systems, University of Colorado", "B.S. Computer Science, University of Michigan"],
+    availability: "Available from August 2025",
+    bio: "Cloud architect with deep expertise in multi-cloud environments and automation. Passionate about helping organizations modernize their infrastructure.",
+  },
+  {
+    id: "7",
+    name: "Jonas Schmidt",
+    title: "Full Stack Developer",
+    avatar: "https://randomuser.me/api/portraits/men/21.jpg",
+    location: "Berlin, Germany",
+    hourlyRate: 100,
+    totalProjects: 41,
+    experiences: [
+      {
+        company: "WebWorks GmbH",
+        role: "Senior Full Stack Developer",
+        duration: "2020 - Present",
+        description: "Developed scalable web applications for e-commerce and SaaS clients. Led frontend and backend teams.",
+      },
+      {
+        company: "AppDev Solutions",
+        role: "Frontend Developer",
+        duration: "2016 - 2020",
+        description: "Built interactive UIs and optimized performance for large-scale web apps.",
+      },
+    ],
+    education: ["Diploma in Computer Science, TU Berlin"],
+    availability: "Available immediately",
+    bio: "Full stack developer with a strong background in modern JavaScript frameworks and cloud-native development.",
+  },
+  {
+    id: "8",
+    name: "Fatima Al-Farsi",
+    title: "Cybersecurity Consultant",
+    avatar: "https://randomuser.me/api/portraits/women/50.jpg",
+    location: "Dubai, UAE",
+    hourlyRate: 150,
+    totalProjects: 27,
+    experiences: [
+      {
+        company: "SecureTech ME",
+        role: "Lead Security Consultant",
+        duration: "2019 - Present",
+        description: "Conducted security audits and penetration tests for government and financial sector clients. Developed incident response strategies.",
+      },
+      {
+        company: "CyberSafe Solutions",
+        role: "Security Analyst",
+        duration: "2015 - 2019",
+        description: "Monitored network traffic, identified threats, and implemented security controls.",
+      },
+    ],
+    education: ["M.S. Cybersecurity, Khalifa University", "Certified Ethical Hacker (CEH)"],
+    availability: "Available from September 2025",
+    bio: "Cybersecurity expert with a proven track record in protecting organizations from evolving threats and ensuring compliance.",
+  },
+  {
+    id: "9",
+    name: "Lucas Moretti",
+    title: "Mobile App Developer",
+    avatar: "https://randomuser.me/api/portraits/men/76.jpg",
+    location: "Sao Paulo, Brazil",
+    hourlyRate: 90,
+    totalProjects: 35,
+    experiences: [
+      {
+        company: "AppMasters BR",
+        role: "Lead Mobile Developer",
+        duration: "2021 - Present",
+        description: "Developed cross-platform mobile apps for startups and enterprises. Mentored junior developers and led code reviews.",
+      },
+      {
+        company: "MobileX Studio",
+        role: "Mobile Developer",
+        duration: "2017 - 2021",
+        description: "Built and maintained Android and iOS applications for various clients.",
+      },
+    ],
+    education: ["B.S. Software Engineering, University of Sao Paulo"],
+    availability: "Available immediately",
+    bio: "Mobile developer specializing in Flutter and cross-platform solutions. Focused on delivering high-quality, user-friendly apps.",
+  },
+  {
+    id: "10",
+    name: "Sophie Dubois",
+    title: "AI/ML Engineer",
+    avatar: "https://randomuser.me/api/portraits/women/12.jpg",
+    location: "Paris, France",
+    hourlyRate: 145,
+    totalProjects: 19,
+    experiences: [
+      {
+        company: "AI Solutions FR",
+        role: "AI/ML Engineer",
+        duration: "2020 - Present",
+        description: "Designed and deployed machine learning models for healthcare and finance sectors. Improved model accuracy and scalability.",
+      },
+      {
+        company: "DataLab Paris",
+        role: "Machine Learning Engineer",
+        duration: "2017 - 2020",
+        description: "Developed NLP and computer vision solutions for research and commercial projects.",
+      },
+    ],
+    education: ["M.S. Artificial Intelligence, Sorbonne University", "B.S. Mathematics, University of Paris"],
+    availability: "Available from October 2025",
+    bio: "AI/ML engineer with a passion for building intelligent systems and solving real-world problems with data.",
   },
 ];
