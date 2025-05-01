@@ -1,60 +1,51 @@
-import { Consultant, consultants } from "@/lib/data/consultants";
+import { EvaluationResponse, evaluateConsultants } from "@/lib/api";
 import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { ConsultantList } from "@/components/consultants/ConsultantList";
 import Footer from "@/components/layout/Footer";
 import MetaTags from "@/components/layout/MetaTags";
+import { consultants } from "@/lib/data/consultants";
+import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 
 export default function ResultsPage() {
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState(true);
-  const [aiResults, setAiResults] = useState<Consultant[]>([]);
-  const [error, setError] = useState<string | null>(null);
   const [jobTitle, setJobTitle] = useState<string>("");
+
+  const { jobDescription } = router.query;
+  const hasJobDescription = typeof jobDescription === "string";
+
+  // Set job title if available
+  useEffect(() => {
+    if (typeof router.query.jobTitle === "string") {
+      setJobTitle(router.query.jobTitle);
+    }
+
+    if (!hasJobDescription) {
+      router.push("/");
+    }
+  }, [router.query.jobTitle, hasJobDescription, router]);
+
+  const { data, isLoading, error } = useQuery<EvaluationResponse>({
+    queryKey: ["consultantEvaluation", jobDescription, jobTitle],
+    queryFn: () =>
+      evaluateConsultants({
+        jobTitle: jobTitle || "",
+        jobDescription: jobDescription as string,
+        consultants,
+      }),
+    enabled: hasJobDescription,
+    staleTime: 30 * 60 * 1000, // 30 minutes
+    gcTime: 35 * 60 * 1000, // 35 minutes
+  });
+
+  const aiResults = data?.consultants || [];
+  const errorMessage = error instanceof Error ? error.message : "Unknown error";
 
   const handleNewSearch = () => {
     router.push("/");
   };
-
-  useEffect(() => {
-    const { jobDescription, jobTitle } = router.query;
-
-    if (jobDescription) {
-      // Set job title if available
-      if (typeof jobTitle === "string") {
-        setJobTitle(jobTitle);
-      }
-
-      setIsLoading(true);
-      setError(null);
-      fetch("/api/evaluate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          jobTitle: jobTitle || "",
-          jobDescription,
-          consultants,
-        }),
-      })
-        .then(async (res) => {
-          if (!res.ok) throw new Error("AI evaluation failed");
-          return res.json();
-        })
-        .then((data) => {
-          setAiResults(data.consultants);
-          setIsLoading(false);
-        })
-        .catch((err) => {
-          setError(err.message || "Unknown error");
-          setIsLoading(false);
-        });
-    } else {
-      router.push("/");
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router.query.jobDescription, router.query.jobTitle]);
 
   return (
     <>
@@ -72,7 +63,7 @@ export default function ResultsPage() {
               <div className="inline-flex items-center justify-center h-16 w-16 rounded-full bg-primary/10 text-primary">
                 <svg className="animate-spin h-8 w-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                 </svg>
               </div>
               <h3 className="mt-4 text-lg font-medium">Evaluating consultants...</h3>
@@ -83,7 +74,7 @@ export default function ResultsPage() {
         ) : error ? (
           <div className="mt-8 text-center">
             <div className="inline-block bg-red-100 text-red-700 px-4 py-2 rounded border border-red-300">
-              <strong>Error:</strong> {error}
+              <strong>Error:</strong> {errorMessage}
             </div>
           </div>
         ) : (
