@@ -1,33 +1,33 @@
-import Head from "next/head";
+import Footer from "@/components/layout/Footer";
 import { JobDescriptionForm } from "@/components/JobDescriptionForm";
-import { useState } from "react";
+import MetaTags from "@/components/layout/MetaTags";
+import { useRouter } from "next/router";
 
 export default function Home() {
-  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
-  const handleSubmit = async (description: string) => {
-    try {
-      console.log(description);
-    } catch (error) {
-      console.error("Error submitting form:", error);
-    } finally {
-      setIsLoading(false);
-    }
+  const handleSubmit = (description: string) => {
+    router.push({
+      pathname: "/results",
+      query: { jobDescription: description },
+    });
   };
 
   return (
     <>
-      <Head>
-        <title>Consultant Evaluator | Find the Right Consultant</title>
-        <meta name="description" content="Evaluate consultants based on job descriptions using AI-powered analysis." />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+      <MetaTags title="Home | Consultant Evaluator" />
 
-      <div className="grid gap-10 md:gap-16">
-        <section className="w-full max-w-4xl mx-auto">
-          <JobDescriptionForm onSubmit={handleSubmit} isLoading={isLoading} />
-        </section>
+      <div className="max-w-4xl w-full ">
+        <div className="text-center">
+          <h1 className="text-5xl md:text-6xl font-bold tracking-tight bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent">Consultant Evaluator</h1>
+          <p className="mt-3 text-gray-400 max-w-2xl mx-auto">Find and evaluate consultants that match your requirements</p>
+        </div>
+
+        <div className="mt-8 max-w-2xl mx-auto">
+          <JobDescriptionForm onSubmit={handleSubmit} />
+        </div>
+
+        <Footer />
       </div>
     </>
   );

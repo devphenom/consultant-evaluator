@@ -1,48 +1,58 @@
+import { useCallback, useEffect, useRef, useState } from "react";
+
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { useState } from "react";
 
 interface JobDescriptionFormProps {
   onSubmit: (jobDescription: string) => void;
   isLoading?: boolean;
 }
 
-export function JobDescriptionForm({ onSubmit, isLoading = false }: JobDescriptionFormProps) {
+export function JobDescriptionForm({ onSubmit }: JobDescriptionFormProps) {
   const [jobDescription, setJobDescription] = useState("");
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  // Resize the textarea based on its content
+  const resizeTextarea = useCallback(() => {
+    const textarea = textareaRef.current;
+    if (textarea) {
+      textarea.style.height = "auto";
+      textarea.style.height = `${textarea.scrollHeight}px`;
+    }
+  }, []);
+
+  // Resize on component mount and when job description changes
+  useEffect(() => {
+    resizeTextarea();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [jobDescription]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (jobDescription.trim()) {
+    if (!!jobDescription.trim()) {
       onSubmit(jobDescription);
     }
   };
 
   return (
     <div className="space-y-6">
-      <div className="space-y-2">
-        <p className="text-muted-foreground text-2xl">Find the right consultant</p>
-      </div>
-
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-2">
-          <Label htmlFor="job-description" className="text-lg">
-            Job Description
-          </Label>
           <Textarea
             id="job-description"
-            placeholder="Enter a job description to find and evaluate consultants that match your requirements..."
-            className="min-h-[200px] w-full"
+            placeholder="Please enter a job description..."
+            className="min-h-auto w-full overflow-hidden border-2 border-gray-800"
             value={jobDescription}
             onChange={(e) => setJobDescription(e.target.value)}
+            ref={textareaRef}
             required
           />
           <p className="text-xs text-muted-foreground text-left">Be specific about required skills, experience level, and responsibilities for better matches.</p>
         </div>
 
         <div className="flex justify-end">
-          <Button type="submit" disabled={isLoading || !jobDescription.trim()} className="w-full sm:w-auto">
-            {isLoading ? "Analyzing..." : "Find Consultants"}
+          <Button type="submit" disabled={!jobDescription.trim()} className="w-full sm:w-auto">
+            Find Consultants
           </Button>
         </div>
       </form>
