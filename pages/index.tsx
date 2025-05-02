@@ -3,6 +3,7 @@
 import Footer from "@/components/layout/Footer";
 import { JobDescriptionForm } from "@/components/JobDescriptionForm";
 import MetaTags from "@/components/layout/MetaTags";
+import ScrollToTop from "@/components/ScrollToTop";
 import { useRouter } from "next/router";
 
 export default function Home() {
@@ -34,6 +35,9 @@ export default function Home() {
 
         <Footer />
       </div>
+
+      {/* Scroll to Top Button */}
+      <ScrollToTop />
     </>
   );
 }

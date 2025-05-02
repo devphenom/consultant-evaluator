@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { ConsultantList } from "@/components/consultants/ConsultantList";
 import Footer from "@/components/layout/Footer";
 import MetaTags from "@/components/layout/MetaTags";
+import ScrollToTop from "@/components/ScrollToTop";
 import { consultants } from "@/lib/data/consultants";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
@@ -94,6 +95,9 @@ export default function ResultsPage() {
 
         <Footer />
       </div>
+
+      {/* Scroll to Top Button */}
+      <ScrollToTop />
     </>
   );
 }
