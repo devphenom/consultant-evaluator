@@ -115,6 +115,7 @@ const CustomSelect = ({
   placeholder = "",
   defaultValue,
   triggerClassName,
+  onValueChange,
   ...props
 }: {
   options: { label: string; value: string }[];
@@ -122,13 +123,34 @@ const CustomSelect = ({
   defaultValue: string;
   triggerClassName?: string;
 } & SelectPrimitive.SelectProps) => {
+  const [open, setOpen] = React.useState(false);
+
+  const handleValueChange = (newValue: string) => {
+    // Special handling for  "deselect" option
+    if (newValue === "__deselect__") {
+      if (onValueChange) {
+        onValueChange("");
+      }
+      setOpen(false);
+      return;
+    }
+
+    if (onValueChange) {
+      onValueChange(newValue);
+    }
+  };
+
   return (
-    <Select defaultValue={defaultValue} {...props}>
+    <Select defaultValue={defaultValue} onValueChange={handleValueChange} open={open} onOpenChange={setOpen} {...props}>
       <SelectTrigger className={cn("min-w-[160px]", triggerClassName)}>
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
 
       <SelectContent>
+        <SelectItem value="__deselect__" className="text-muted-foreground">
+          {placeholder}
+        </SelectItem>
+
         {options.map((option) => (
           <SelectItem key={option.value} value={option.value}>
             {option.label}
